@@ -20,7 +20,7 @@ def plot_frames(x_data, y_data, output_dir):
 
     for i in range(num_frames):
         plt.figure(figsize=(8, 6))
-        plt.scatter(x_data[i], y_data[i], c='blue', marker='o', edgecolor='k', s=50, alpha=0.7)
+        plt.scatter(x_data[i], y_data[i], c='blue', marker='o', linestyle='-')
         plt.title(f'Кадр {i + 1}/{num_frames}')
         plt.xlabel('X')
         plt.ylabel('Y')
