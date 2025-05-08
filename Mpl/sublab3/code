@@ -1,1 +1,39 @@
+import pandas as pd
+import matplotlib.pyplot as plt
 
+def load_data(file_path):
+    data = pd.read_csv(file_path, sep=';', header=None, names=['Teach', 'Group', 'Grade'])
+    return data
+
+def plot_grade_distribution(data):
+    # Распределение оценок по преподавателям
+    plt.figure(figsize=(12, 6))
+    data.groupby('Teach')['Grade'].plot(kind='hist', alpha=0.5, legend=True, bins=10)
+    plt.title('Распределение оценок по преподавателям')
+    plt.xlabel('Оценка')
+    plt.ylabel('Частота')
+    plt.grid(axis='y', linestyle='--', linewidth=0.7)
+    plt.legend(title='Преподаватель')
+    plt.tight_layout()
+    plt.savefig('grade_distribution_by_instructor.png')
+    plt.close()
+
+    # Распределение оценок по группам
+    plt.figure(figsize=(12, 6))
+    data.groupby('Group')['Grade'].plot(kind='hist', alpha=0.5, legend=True, bins=10)
+    plt.title('Распределение оценок по группам')
+    plt.xlabel('Оценка')
+    plt.ylabel('Частота')
+    plt.grid(axis='y', linestyle='--', linewidth=0.7)
+    plt.legend(title='Группа')
+    plt.tight_layout()
+    plt.savefig('grade_distribution_by_group.png')
+    plt.close()
+
+def main():
+    file_path = 'D:/Питонер/3.csv'  
+    data = load_data(file_path)
+    plot_grade_distribution(data)
+
+if __name__ == "__main__":
+    main()
