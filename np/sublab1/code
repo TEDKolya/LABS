@@ -1,1 +1,50 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image
+import os
+
+def enhance_contrast(image_path, output_path):
+    image = Image.open(image_path).convert('L')  # Конвертация в черно-белое
+    image_array = np.array(image)
+
+    min_val = np.min(image_array)
+    max_val = np.max(image_array)
+
+    stretched_image = (image_array - min_val) * (255 / (max_val - min_val))
+    stretched_image = np.clip(stretched_image, 0, 255).astype(np.uint8)  # Приведение к типу uint8
+
+    enhanced_image = Image.fromarray(stretched_image)
+    enhanced_image.save(output_path)
+
+    plt.figure(figsize=(12, 6))
+    plt.subplot(1, 2, 1)
+    plt.title('Оригинальное изображение')
+    plt.imshow(image_array, cmap='gray')
+    plt.axis('off')
+
+    plt.subplot(1, 2, 2)
+    plt.title('Улучшенное изображение')
+    plt.imshow(stretched_image, cmap='gray')
+    plt.axis('off')
+
+    plt.show()
+
+input_image_paths = [
+    "C:/images/lunar01_raw.jpg",
+    "C:/images/lunar02_raw.jpg",
+    "C:/images/lunar03_raw.jpg"
+]  
+
+output_directory = 'D:/Питонер/луна++' 
+
+if not os.path.exists(output_directory):
+    os.makedirs(output_directory)
+
+for input_image_path in input_image_paths:
+    filename = os.path.basename(input_image_path)
+    name, _ = os.path.splitext(filename)
+    
+    output_image_path = os.path.join(output_directory, f"{name}_enhanced.png")
+    
+    enhance_contrast(input_image_path, output_image_path)
 
