@@ -1,1 +1,43 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import os
 
+def load_data(file_path):
+    data = np.loadtxt(file_path)
+    x_data = data[0::2] 
+    y_data = data[1::2] 
+    return x_data, y_data
+
+def plot_frames(x_data, y_data, output_dir):
+    num_frames = len(x_data)
+    
+    x_min = min([min(x) for x in x_data])
+    x_max = max([max(x) for x in x_data])
+    y_min = min([min(y) for y in y_data])
+    y_max = max([max(y) for y in y_data])
+    
+    os.makedirs(output_dir, exist_ok=True)
+
+    for i in range(num_frames):
+        plt.figure(figsize=(8, 6))
+        plt.scatter(x_data[i], y_data[i], c='blue', marker='o', edgecolor='k', s=50, alpha=0.7)
+        plt.title(f'Кадр {i + 1}/{num_frames}')
+        plt.xlabel('X')
+        plt.ylabel('Y')
+        plt.xlim(x_min, x_max)
+        plt.ylim(y_min, y_max)
+        plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+        plt.axhline(0, color='black',linewidth=0.5, ls='--')
+        plt.axvline(0, color='black',linewidth=0.5, ls='--')
+        
+        plt.savefig(os.path.join(output_dir, f'frame_{i + 1}.png'))
+        plt.close()
+
+def main():
+    file_path = 'D:/Питонер/2.dat' 
+    output_dir = 'D:/Питонер/картиночки'  
+    x_data, y_data = load_data(file_path)
+    plot_frames(x_data, y_data, output_dir)
+
+if __name__ == "__main__":
+    main()
