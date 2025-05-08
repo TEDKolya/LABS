@@ -12,7 +12,7 @@ def load_data(file_path):
 # Визуализация данных
 def plot_data(x, y):
     plt.figure(figsize=(8, 6)) 
-    plt.scatter(x, y, c='blue', marker='o', edgecolor='k', s=50, alpha=0.7) 
+    plt.scatter(x, y, c='blue', marker='o', linestyle='-') 
     plt.title('Визуализация данных')
     plt.xlabel('X')
     plt.ylabel('Y')
