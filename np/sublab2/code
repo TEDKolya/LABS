@@ -1,1 +1,49 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import os
 
+def load_data(file_path):
+    """Загрузка данных из файла."""
+    return np.loadtxt(file_path)
+
+def moving_average(data, window_size):
+    """Применение скользящего среднего к данным."""
+    filtered_data = np.zeros_like(data)
+    n = len(data)
+    
+    for i in range(n):
+        if i == 0:
+            filtered_data[i] = data[i]
+        elif i == 1:
+            filtered_data[i] = (data[0] + data[1]) / 2
+        elif i == 2:
+            filtered_data[i] = np.mean(data[:3])
+        else:
+            start_index = max(0, i - window_size + 1)
+            filtered_data[i] = np.mean(data[start_index:i + 1])
+    
+    return filtered_data
+
+def plot_data(original, filtered, title):
+    """Отображение оригинальных и отфильтрованных данных."""
+    plt.figure(figsize=(12, 6))
+    plt.plot(original, label='Исходные данные', alpha=0.5)
+    plt.plot(filtered, label='Отфильтрованные данные', color='orange')
+    plt.title(title)
+    plt.xlabel('Время')
+    plt.ylabel('Значения')
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+# Пример использования
+input_directory = 'D:/Питонер/signals' 
+files = ['signal01.dat', 'signal02.dat', 'signal03.dat'] 
+
+for file in files:
+    file_path = os.path.join(input_directory, file)
+    data = load_data(file_path)
+    
+    filtered_data = moving_average(data, window_size=10)
+    
+    plot_data(data, filtered_data, title=f'Файл: {file}')
